@@ -1,6 +1,7 @@
 import logging
 from asyncio import AbstractEventLoop, Event, Task, get_event_loop, sleep
 from inspect import isawaitable
+import json
 from typing import Any, Callable, ClassVar, Dict, Optional, TYPE_CHECKING, Type, Union
 
 from async_timeout import timeout
