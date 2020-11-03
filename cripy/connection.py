@@ -308,7 +308,14 @@ class Connection(EventEmitterS):
 
         :param message: The JSON message string.
         """
-        msg = loads(message)
+        # In some cases (e.g. while decoding a string with surrogate pairs)
+        # ujson.loads throws ValueError.
+        # Then trying to use standart json.loads method.
+        try:
+            msg = loads(message)
+        except ValueError:
+            msg = json.loads(message)
+
         self._log_msg(msg)
         if not self._flatten_sessions:
             return self._on_message_non_flat(msg)
