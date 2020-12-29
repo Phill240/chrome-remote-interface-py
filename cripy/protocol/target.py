@@ -100,7 +100,12 @@ class Target:
             msg["bindingName"] = bindingName
         return self.client.send("Target.exposeDevToolsProtocol", msg)
 
-    def createBrowserContext(self) -> Awaitable[Dict]:
+    def createBrowserContext(
+        self,
+        disposeOnDetach: Optional[bool] = None,
+        proxyServer: Optional[str] = None,
+        proxyBypassList: Optional[str] = None,
+    ) -> Awaitable[Dict]:
         """
         Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than
         one.
@@ -111,7 +116,14 @@ class Target:
 
         :return: The results of the command
         """
-        return self.client.send("Target.createBrowserContext", {})
+        msg = {}
+        if disposeOnDetach is not None:
+            msg["disposeOnDetach"] = disposeOnDetach
+        if proxyServer is not None:
+            msg["proxyServer"] = proxyServer
+        if proxyBypassList is not None:
+            msg["proxyBypassList"] = proxyBypassList
+        return self.client.send("Target.createBrowserContext", msg)
 
     def getBrowserContexts(self) -> Awaitable[Dict]:
         """
